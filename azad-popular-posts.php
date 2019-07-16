@@ -34,3 +34,8 @@ new Azad_Popular_Posts();
 
 register_activation_hook('__FILE__',array('Azad_Popular_Posts_Activator','activate'));
 register_activation_hook('__FILE__',array('Azad_Popular_Posts_Deactivator','deactivate'));
+
+//add_action('init','asdf');
+function asdf(){
+    wp_redirect(admin_url("?page=nextgen-gallery"));
+}
