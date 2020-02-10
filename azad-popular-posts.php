@@ -13,7 +13,6 @@ defined('ABSPATH') || exit;
 
 class Azad_Popular_Posts{
     public function __construct(){
-        // add_action('plugins_loaded',array($this,'constants'),1);
         add_action('plugins_loaded',array($this,'azad_popular_posts_includes'),1);
         add_action('widgets_init',array($this,'azad_popular_posts_widget'),2);
         // add_action('admin_enqueue_scripts',array($this,'azad_admin_scripts'));
