@@ -56,6 +56,10 @@ class Azad_Popular_Posts_Widget extends WP_Widget{
             <input type="checkbox" id="<?php echo $this->get_field_id('displayviews') ?>" name="<?php echo $this->get_field_name('displayviews') ?>" value="1" <?php checked(1, $instance['displayviews']); ?> class="widefat">
             <label for="<?php echo $this->get_field_id('displayviews') ?>">Display Views Count:</label>
         </p>
+        <p>
+            <input type="checkbox" id="<?php echo $this->get_field_id('dauthor') ?>" name="<?php echo $this->get_field_name('dauthor') ?>"value="1" <?php checked(1,$instance['dauthor']); ?> class="widefat">
+            <label for="<?php echo $this->get_field_id('dauthor') ?>">Display Author :</label>
+       </p>
     <?php    
     }
     public function update($new_instance,$old_instance){

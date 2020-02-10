@@ -9,6 +9,7 @@ Author Email: webdevazad@gmail.com
 Version: 0.0.0.1
 Text Domain: azad-popular-posts
 */
+
 defined('ABSPATH') || exit;
 
 class Azad_Popular_Posts{
@@ -31,8 +32,8 @@ class Azad_Popular_Posts{
 }
 new Azad_Popular_Posts();
 
-register_activation_hook('__FILE__',array('Azad_Popular_Posts_Activator','activate'));
-register_activation_hook('__FILE__',array('Azad_Popular_Posts_Deactivator','deactivate'));
+//register_activation_hook('__FILE__',array('Azad_Popular_Posts_Activator','activate'));
+//register_activation_hook('__FILE__',array('Azad_Popular_Posts_Deactivator','deactivate'));
 
 //add_action('init','asdf');
 function asdf(){
