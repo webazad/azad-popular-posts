@@ -22,8 +22,9 @@ class App {
 	 * Define the core functionality of the plugin.
 	 */
 	public function __construct() {
+		
 		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+			$this->version = '1.0.0';
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -59,6 +60,8 @@ class App {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-app-i18n.php';
+
+		require_once plugin_dir_path( __FILE__ ) . '/functions.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -124,19 +127,9 @@ class App {
 
 		$this->loader->add_action( 'wp_head', $plugin_public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-        $this->loader->add_action( 'wp_footer', $plugin_public, 'get_cart_templates' );
 
-        $this->loader->add_action( 'wp_ajax_woo_amc_get_cart', $plugin_public, 'show_cart_items_html' );
-        $this->loader->add_action( 'wp_ajax_nopriv_woo_amc_get_cart', $plugin_public, 'show_cart_items_html' );
-        $this->loader->add_action( 'wp_ajax_woo_amc_quanity_update', $plugin_public, 'quanity_update' );
-        $this->loader->add_action( 'wp_ajax_nopriv_woo_amc_quanity_update', $plugin_public, 'quanity_update' );
-        $this->loader->add_action( 'wp_ajax_woo_amc_delete_item', $plugin_public, 'delete_cart_item' );
-        $this->loader->add_action( 'wp_ajax_nopriv_woo_amc_delete_item', $plugin_public, 'delete_cart_item' );
-
-        $this->loader->add_action( 'wp_ajax_woo_amc_add_to_cart', $plugin_public, 'add_to_cart' );
-        $this->loader->add_action( 'wp_ajax_nopriv_woo_amc_add_to_cart', $plugin_public, 'add_to_cart' );
-
-        $this->loader->add_filter( 'wc_add_to_cart_message_html', $plugin_public, 'remove_added_to_cart_notice' );
+        // $this->loader->add_action( 'wp_ajax_woo_amc_get_cart', $plugin_public, 'show_cart_items_html' );
+        // $this->loader->add_action( 'wp_ajax_nopriv_woo_amc_get_cart', $plugin_public, 'show_cart_items_html' );
 
 	}
 

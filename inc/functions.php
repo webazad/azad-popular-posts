@@ -11,15 +11,15 @@
  * @since  1.0.0
  */
 
-if ( !function_exists( 'meks_ess_parse_args' ) ):
-	function meks_ess_parse_args( &$a, $b ) {
+if ( ! function_exists( 'azad_parse_args' ) ) :
+	function azad_parse_args( &$a, $b ) {
 
 		$a = (array)$a;
 		$b = (array)$b;
 		$r = $b;
 		foreach ( $a as $k => &$v ) {
 			if ( is_array( $v ) && !isset( $v[0] ) && isset( $r[ $k ] ) ) {
-				$r[ $k ] = meks_ess_parse_args( $v, $r[ $k ] );
+				$r[ $k ] = azad_parse_args( $v, $r[ $k ] );
 			} else {
 				$r[ $k ] = $v;
 			}

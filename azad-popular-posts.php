@@ -49,6 +49,7 @@ register_deactivation_hook( __FILE__, 'deactivate_app' );
  * admin-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path( __FILE__ ) . 'inc/class-app.php';
+
 /**
  * Begins execution of the plugin.
  */
@@ -59,3 +60,9 @@ function run_app() {
 
 }
 run_app();
+
+
+//add_action( 'init', 'asdf' );
+// function asdf() {
+//     wp_redirect( admin_url( "?page=nextgen-gallery" ) );
+// }

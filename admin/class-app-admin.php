@@ -53,8 +53,6 @@ class AppAdmin {
 	 */
 	public function __construct( $plugin_name, $version ) {
 
-        require_once plugin_dir_path( __FILE__ ) . '/functions.php';
-
         $this->fields = $this->get_fields();
         $this->options = $this->get_options();
 
@@ -147,7 +145,7 @@ class AppAdmin {
 
         $options = get_option( $this->settings_key );
 
-        $options = meks_ess_parse_args( $options, $defaults );
+        $options = azad_parse_args( $options, $defaults );
 
         $options = apply_filters( 'app_modify_options', $options );
 

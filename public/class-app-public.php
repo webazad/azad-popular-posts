@@ -5,7 +5,7 @@ class AppPublic {
     /**
      * The ID of this plugin.
      */
-    private $plugin_name;
+    public $plugin_name;
 
     /**
      * The version of this plugin.
@@ -30,8 +30,6 @@ class AppPublic {
         // $options = get_option('woo_amc_options');
         // $enabled = isset( $options['enabled']) ? $options['enabled'] : 1;
         // if( ( is_cart() || is_checkout() ) && $enabled != 1 ){return;}
-
-        // wp_enqueue_style( 'perfect-scrollbar', plugin_dir_url( __FILE__ ) . 'css/perfect-scrollbar.css', array(), $this->version, 'all' );
         // wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/woo-amc-public.css', array(), $this->version, 'all' );
 
         // $inline_css = $this->get_inline_css();
@@ -44,12 +42,14 @@ class AppPublic {
      */
     public function enqueue_scripts() {
 
-        // $options = get_option('woo_amc_options');
-        // $enabled = isset( $options['enabled']) ? $options['enabled'] : 1;
-        // if( ( is_cart() || is_checkout() ) && $enabled != 1 ){return;}
-        // $options = get_option('woo_amc_options');
+        //self::custom_ids();		
+		//self::fixed_wigets();		
+		//wp_enqueue_script('jquery');		
+		wp_enqueue_script( 'azad-fixed-widget', plugin_dir_url( __FILE__ ) . 'js/azad-fixed-widget.js', array('jquery'), $this->version, true);		
+		self::wp_localize_script( 'azad-fixed-widget' );
 
-        // wp_enqueue_script( 'perfect-scrollbar', plugin_dir_url( __FILE__ ) . 'js/perfect-scrollbar.min.js', array( 'jquery' ), $this->version, false );
+        // $options = get_option( 'app_settings' );
+        // $enabled = isset( $options['enabled']) ? $options['enabled'] : 1;
         // wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woo-amc-public.js', array( 'jquery' ), $this->version, false );
 
         // wp_localize_script( $this->plugin_name, 'wooAmcVars', array(
@@ -61,243 +61,81 @@ class AppPublic {
 
     }
 
-    private function get_inline_css(){
-        $css = get_option('woo_amc_options');
+    protected static function wp_localize_script( $id ) {
 
-        //print_r($css);
-
-        $button_icon_color  = isset( $css['button_icon_color'] ) ? $css['button_icon_color'] : 'red';
-        $button_bg_color    = isset( $css['button_bg_color'] ) ? $css['button_bg_color'] : 'red';
-        $button_border_radius   = isset( $css['button_border_radius'] ) ? $css['button_border_radius'] : 2;
-        $button_count_bg    = isset( $css['button_count_bg'] ) ? $css['button_count_bg'] : 'red';
-        $button_count_color     = isset( $css['button_count_color'] ) ? $css['button_count_color'] : 'red';
-        $bg_color = isset( $css['bg_color'] ) ? $css['bg_color'] : 'red';
-        $bg_opacity = isset( $css['bg_opacity'] ) ? $css['bg_opacity'] : 60;
-        $bg_opacity = $bg_opacity/100;
-        $css = "
-            .woo_amc_open{
-                background: {$button_bg_color};
-                border-radius: {$button_border_radius}px;
-            }
-            .woo_amc_open path{
-                fill: {$button_icon_color};
-            }
-            .woo_amc_open_count{
-                background: {$button_count_bg};
-                color: {$button_count_color};
-            }
-            .woo_amc_bg:after{
-                background: {$bg_color};
-                opacity: {$bg_opacity};
-            }
-            .woo_amc_container{
-                background: {$cart_bg};
-            }
-            .lds-spinner div:after{
-                background: {$cart_loader_color};
-            }
-            .woo_amc_head{
-                background: {$cart_header_bg};
-            }
-            .woo_amc_head_title{
-                font-size: {$cart_header_title_size}px;
-                color: {$cart_header_title_color};
-            }
-            .woo_amc_close line{
-                stroke: $cart_header_close_color;
-            }
-            .woo_amc_item_delete line{
-                stroke: {$cart_item_close_color};
-            }
-            .woo_amc_item_wrap{
-                color: {$cart_item_text_color};
-                font-size: {$cart_item_text_size}px;
-                background: {$cart_item_bg};
-                border: {$cart_item_border_width}px solid {$cart_item_border_color};
-                border-radius: {$cart_item_border_radius}px;
-                padding: {$cart_item_padding}px;
-            }
-            .woo_amc_item_title a{
-                color: {$cart_item_title_color};
-                font-size: {$cart_item_title_size}px;
-            }
-            .woo_amc_item_price_wrap del .woocommerce-Price-amount.amount{
-                color: {$cart_item_old_price_color};
-            }
-            .woo_amc_item_price_wrap .woocommerce-Price-amount.amount{
-                color: {$cart_item_price_color};
-            }
-            .woo_amc_item_quanity_minus line, .woo_amc_item_quanity_plus line{
-                stroke: {$cart_item_quantity_buttons_color};
-                fill: none;
-            }
-            input.woo_amc_item_quanity, input.woo_amc_item_quanity:focus{
-                color: {$cart_item_quantity_color};
-                background: {$cart_item_quantity_bg};
-                border-radius: {$cart_item_quantity_border_radius}px;
-                font-size: {$cart_item_text_size}px;
-            }
-            .woo_amc_item_total_price{
-                color: {$cart_item_big_price_color};
-                font-size: {$cart_item_big_price_size}px;
-            }
-            .woo_amc_footer{
-                background: {$cart_footer_bg};
-            }
-            .woo_amc_footer_products{
-                font-size: {$cart_footer_products_size}px;
-            }
-            .woo_amc_footer_products .woo_amc_label{
-                color: {$cart_footer_products_label_color};
-            }
-            .woo_amc_footer_products .woo_amc_value{
-                color: {$cart_footer_products_count_color};
-            }
-            .woo_amc_footer_total{
-                font-size: {$cart_footer_total_size}px;
-            }
-            .woo_amc_footer_total .woo_amc_label{
-                color: {$cart_footer_total_label_color};
-            }
-            .woo_amc_footer_total .woo_amc_value{
-                color: {$cart_footer_total_price_color};
-            }
-            .woo_amc_footer_link{
-                font-size: {$cart_footer_link_size}px;
-                color: {$cart_footer_link_color};
-            }
-        ";
-
-
-        $css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
-        // backup values within single or double quotes
-        preg_match_all('/(\'[^\']*?\'|"[^"]*?")/ims', $css, $hit, PREG_PATTERN_ORDER);
-        for ($i=0; $i < count($hit[1]); $i++) {
-            $css = str_replace($hit[1][$i], '##########' . $i . '##########', $css);
-        }
-        // remove traling semicolon of selector's last property
-        $css = preg_replace('/;[\s\r\n\t]*?}[\s\r\n\t]*/ims', "}\r\n", $css);
-        // remove any whitespace between semicolon and property-name
-        $css = preg_replace('/;[\s\r\n\t]*?([\r\n]?[^\s\r\n\t])/ims', ';$1', $css);
-        // remove any whitespace surrounding property-colon
-        $css = preg_replace('/[\s\r\n\t]*:[\s\r\n\t]*?([^\s\r\n\t])/ims', ':$1', $css);
-        // remove any whitespace surrounding selector-comma
-        $css = preg_replace('/[\s\r\n\t]*,[\s\r\n\t]*?([^\s\r\n\t])/ims', ',$1', $css);
-        // remove any whitespace surrounding opening parenthesis
-        $css = preg_replace('/[\s\r\n\t]*{[\s\r\n\t]*?([^\s\r\n\t])/ims', '{$1', $css);
-        // remove any whitespace between numbers and units
-        $css = preg_replace('/([\d\.]+)[\s\r\n\t]+(px|em|pt|%)/ims', '$1$2', $css);
-        // shorten zero-values
-        $css = preg_replace('/([^\d\.]0)(px|em|pt|%)/ims', '$1', $css);
-        // constrain multiple whitespaces
-        $css = preg_replace('/\p{Zs}+/ims',' ', $css);
-        // remove newlines
-        $css = str_replace(array("\r\n", "\r", "\n"), '', $css);
-        // Restore backupped values within single or double quotes
-        for ($i=0; $i < count($hit[1]); $i++) {
-            $css = str_replace('##########' . $i . '##########', $hit[1][$i], $css);
-        }
-
-
-        return $css;
-    }
-
-
-    /**
-     * Get Cart HTML
-     */
-
-    public function get_cart_templates(){
-            
-    }
-
-    /**
-     * Show Cart Items HTML
-     */
-    public function show_cart_items_html(){
-        $type = sanitize_text_field($_POST['type']);
-        $cart = array(
-            'html' => 0,
-            'count' => 0,
-            'total' => 0,
-        );
-
-        if ($type) {
-            $items = WC()->cart->get_cart();
-            if ($type == 'center') {
-                $template_type_items = 'items_center';
-            } else {
-                $template_type_items = 'items_side';
-            }
-            ob_start();
-            include(plugin_dir_path(dirname(__FILE__)) . 'templates/' . $template_type_items . '.php');
-            $output = ob_get_contents();
-            ob_end_clean();
-            $cart['html'] = $output;
-            $cart['count'] = WC()->cart->cart_contents_count;
-            $cart['total'] = WC()->cart->get_cart_total();
-            $cart['nonce'] = wp_create_nonce( 'woo-amc-security' );
-        }
+        $options = self::load_options();
         
-        echo json_encode($cart);
-        wp_die();
+		// if ( is_array(self::$fixed_widgets) && !empty(self::$fixed_widgets) ) {		
+		// 	if ( isset($options['window-load-enabled']) && $options['window-load-enabled'] == 'yes' ) $window_load_hook = true; else $window_load_hook = false;	
+		// 	if ( isset($options['width-inherit']) && $options['width-inherit'] ) $width_inherit = true; else $width_inherit = false;				
+		// 	if ( isset($options['disable-mo-api']) && $options['disable-mo-api'] ) $disable_mo_api = true; else $disable_mo_api = false;				
+		// 	if ( $options['refresh-interval'] > 0 ) $refresh_interval = $options['refresh-interval']; else $refresh_interval = 0;				
+		// 	$i = 0;
+		// 	$sidebar_options = array();				
+		// 	self::$fixed_widgets = apply_filters( 'q2w3-fixed-widgets', self::$fixed_widgets ); // this filter was requested by users			
+		// 	foreach ( self::$fixed_widgets as $sidebar => $widgets ) {		
+		// 		$sidebar_options[ $i ] = array(
+		// 				'sidebar' => $sidebar,
+		// 				'margin_top' => $options['margin-top'],
+		// 				'margin_bottom' => $options['margin-bottom'],
+		// 				'stop_id' => $options['stop-id'],
+		// 				'screen_max_width' => $options['screen-max-width'],
+		// 				'screen_max_height' => $options['screen-max-height'],
+		// 				'width_inherit' => $width_inherit,
+		// 				'refresh_interval' => $refresh_interval,
+		// 				'window_load_hook' => $window_load_hook,
+		// 				'disable_mo_api' => $disable_mo_api,
+		// 				'widgets' => array_values( $widgets )
+		// 		);		
+		// 		$i++;		
+		// 	}				
+			// wp_localize_script( $this->plugin_name, 'q2w3_sidebar_options', $sidebar_options );				
+			wp_localize_script( $id, 'q2w3_sidebar_options', $options );				
+        // }
+        				
     }
+    
+    protected static function defaults() {
 
-    /**
-     * Delete Cart Item
-     */
-    public function delete_cart_item(){
-        $key = sanitize_text_field($_POST['key']);
-        $cart = array(
-            'count' => 0,
-            'total' => 0,
-        );
-        if ($key && wp_verify_nonce( $_POST['security'], 'woo-amc-security' )){
-            WC()->cart->remove_cart_item($key);
-            $cart = array();
-            $cart['count'] = WC()->cart->cart_contents_count;
-            $cart['total'] = WC()->cart->get_cart_total();
-        }
-        echo json_encode( $cart );
-        wp_die();
+		$defaults['margin_top'] = 10;			
+        $defaults['margin_bottom'] = 0;		
+		$defaults['stop_id'] = '';		
+		$defaults['refresh_interval'] = 1500;		
+		$defaults['screen-max-width'] = 0;		
+		$defaults['screen-max-height'] = 0;		
+		$defaults['fix-widget-id'] = 'yes';		
+		$defaults['window-load-enabled'] = false;	
+		$defaults['logged_in_req'] = false;	
+		$defaults['width-inherit'] = false;		
+		$defaults['disable-mo-api'] = false;
+
+        return $defaults;
+
     }
+    
+	protected static function load_options() {
 
-    /**
-     * Quanity update
-     */
-    public function quanity_update(){
-        $key = sanitize_text_field($_POST['key']);
-        $number = intval(sanitize_text_field($_POST['number']));
-        $cart = array(
-            'count' => 0,
-            'total' => 0,
-            'item_price' => 0,
-        );
-        if($key && $number>0 && wp_verify_nonce( $_POST['security'], 'woo-amc-security' )){
-            WC()->cart->set_quantity( $key, $number );
-            $items = WC()->cart->get_cart();
-            $cart = array();
-            $cart['count'] = WC()->cart->cart_contents_count;
-            $cart['total'] = WC()->cart->get_cart_total();
-            $cart['item_price'] = wc_price($items[$key]['line_total']);
-        }
-        echo json_encode( $cart );
-        wp_die();
-    }
+        $options = get_option( 'app_settings' );
+        return $options = azad_parse_args( $options, self::defaults() );
+        
+	}
 
-    /**
-     * Add To Cart
-     */
-    public function add_to_cart(){
-        WC_AJAX::get_refreshed_fragments();
-        wp_die();
-    }
+    private function get_inline_css(){
 
-    /**
-     * Remove Added to Cart Notice
-     */
-    public function remove_added_to_cart_notice(){
-        return false;
+        // $css = get_option('woo_amc_options');
+        // $button_icon_color  = isset( $css['button_icon_color'] ) ? $css['button_icon_color'] : 'red';
+        // $css = "
+        //     .woo_amc_open{
+        //         background: {$button_bg_color};
+        //         border-radius: {$button_border_radius}px;
+        //     }
+        //     .woo_amc_open path{
+        //         fill: {$button_icon_color};
+        //     }
+        // ";
+
+        // return $css;
+
     }
 
 }

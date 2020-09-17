@@ -3,17 +3,58 @@ defined( 'ABSPATH' ) || exit;
 
 class App_Widget extends WP_Widget {
 
+    protected $widget_slug = 'azad_popular_posts';
+
     public function __construct() {
 
         parent::__construct(
-            'azad_popular_posts',
-            'Azad Popular Posts',
+            $this->get_widget_slug(),
+            __( 'Azad Popular Posts', $this->get_widget_slug() ),
             array(
-                'description' => 'Show your popular posts'
+                'classname' =>  $this->get_widget_slug().'-class',
+                'description'   => __('A Simple plugin to show the posts as per the filter applied.',$this->get_widget_slug()),
             )
         );
+        
         add_action( 'wp_head', array( $this, 'track_popular_post_views' ) );
 
+        add_action('in_widget_form', array( __CLASS__, 'add_widget_option' ), 10, 3);
+        add_filter('widget_update_callback', array( __CLASS__, 'update_widget_option' ), 10, 3);
+
+    }
+
+    public static function add_widget_option($widget, $return, $instance) {  
+	
+		if ( isset($instance['q2w3_fixed_widget']) ) $iqfw = $instance['q2w3_fixed_widget']; else $iqfw = 0;
+		
+		echo '<p>'.PHP_EOL;
+    	
+		echo '<input type="checkbox" name="'. $widget->get_field_name('q2w3_fixed_widget') .'" value="1" '. checked( $iqfw, 1, false ) .'/>'.PHP_EOL;
+    	
+		echo '<label for="'. $widget->get_field_id('q2w3_fixed_widget') .'">'. __('Fixed widget', 'q2w3-fixed-widget') .'</label>'.PHP_EOL;
+	
+		echo '</p>'.PHP_EOL;    
+
+    }
+    
+    public static function update_widget_option($instance, $new_instance, $old_instance){
+    
+    	if ( isset($new_instance['q2w3_fixed_widget']) && $new_instance['q2w3_fixed_widget'] ) {
+			
+    		$instance['q2w3_fixed_widget'] = 1;
+    
+    	} else {
+    	
+    		$instance['q2w3_fixed_widget'] = false;
+    	
+    	}
+    
+    	return $instance;
+
+	}
+
+    public function get_widget_slug() {
+		return $this->widget_slug;
     }
 
     public function track_popular_post_views() {
@@ -40,7 +81,15 @@ class App_Widget extends WP_Widget {
 
     }
 
-    public function form ( $instance ) { ?>
+    public function form ( $instance ) { 
+        // $defaults = array(
+        //     'title' => 'Azad Popular Posts',
+        //     'asdf' => 'asdf',
+        //     'asdf' => 'asdf'
+        // );
+        // $instance = wp_parse_args( ( array) $instance, $defaults );
+        
+        ?>
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>">Widget Title:</label>
             <input type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" class="widefat"/>
@@ -79,6 +128,13 @@ class App_Widget extends WP_Widget {
        </p>
         <?php
     }
+
+    // public function update( $new_instance, $old_instance ) {
+    //     $instance = array();
+    //     $instance['title'] = strip_tags( $new_instance['title'] );
+    //     $instance['displayviews'] = strip_tags( $new_instance['displayviews'] );
+    //     return $new_instance;
+    // }
 
     public function widget( $args, $instance ) {
 
