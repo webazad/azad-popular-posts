@@ -2,40 +2,60 @@
 /* 
 Plugin Name: Azad Popular Posts
 Description: A very simple plugin
-Plugin URi: gittechs.com/plugin/azad-popular-posts
+Plugin URI: gittechs.com/plugin/azad-popular-posts
 Author: Md. Abul Kalam Azad
 Author URI: gittechs.com/author
 Author Email: webdevazad@gmail.com
-Version: 0.0.0.1
+Version: 1.0.0
 Text Domain: azad-popular-posts
 */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
-class Azad_Popular_Posts{
-    public function __construct(){
-        add_action('plugins_loaded',array($this,'azad_popular_posts_includes'),1);
-        add_action('widgets_init',array($this,'azad_popular_posts_widget'),2);
-        // add_action('admin_enqueue_scripts',array($this,'azad_admin_scripts'));
-        // add_action('wp_enqueue_scripts',array($this,'azad_public_scripts'));
-    }
-    public function azad_popular_posts_includes(){
-        require_once(plugin_dir_path(__FILE__).'/admin/class-azad-popular-posts-widget.php');
-    }
-    public function azad_popular_posts_widget(){
-        register_widget('Azad_Popular_Posts_Widget');
-    }
-    public function init(){
-        require_once(plugin_dir_path(__FILE__).'/inc/class-azad-popular-posts.php');
-    }
-    public function __destruct(){}
+require_once ( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+$plugin_data = get_plugin_data( __FILE__ );
+
+define( 'APP_NAME', $plugin_data['Name'] );
+define( 'APP_VERSION', $plugin_data['Version'] );
+define( 'APP_TEXTDOMAIN', $plugin_data['TextDomain'] );
+define( 'APP_PATH', plugin_dir_path( __FILE__ ) );
+define( 'APP_URL', plugin_dir_url( __FILE__ ) );
+define( 'APP_BASENAME', plugin_basename( __FILE__ ) );
+define( 'APP_FILE', basename( __FILE__ ) );
+define( 'APP_DEBUG', FALSE );
+//define( 'APP_URL', plugins_url( '', __FILE__ ) );
+
+/**
+ * The code that runs during plugin activation.
+ */
+function activate_app() {
+	require_once plugin_dir_path( __FILE__ ) . 'inc/class-app-activator.php';
+    //AppActivator::activate();
 }
-new Azad_Popular_Posts();
+register_activation_hook( __FILE__, 'activate_app' );
 
-//register_activation_hook('__FILE__',array('Azad_Popular_Posts_Activator','activate'));
-//register_activation_hook('__FILE__',array('Azad_Popular_Posts_Deactivator','deactivate'));
-
-//add_action('init','asdf');
-function asdf(){
-    wp_redirect(admin_url("?page=nextgen-gallery"));
+/**
+ * The code that runs during plugin deactivation.
+ */
+function deactivate_app() {
+	require_once plugin_dir_path( __FILE__ ) . 'inc/class-app-deactivator.php';
+    AppDeactivator::deactivate();
 }
+register_deactivation_hook( __FILE__, 'deactivate_app' );
+
+/**
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
+ */
+require plugin_dir_path( __FILE__ ) . 'inc/class-app.php';
+/**
+ * Begins execution of the plugin.
+ */
+function run_app() {
+
+	$plugin = new App();
+	$plugin->run();
+
+}
+run_app();
