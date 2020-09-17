@@ -40,7 +40,7 @@ register_activation_hook( __FILE__, 'activate_app' );
  */
 function deactivate_app() {
 	require_once plugin_dir_path( __FILE__ ) . 'inc/class-app-deactivator.php';
-    AppDeactivator::deactivate();
+    //AppDeactivator::deactivate();
 }
 register_deactivation_hook( __FILE__, 'deactivate_app' );
 
