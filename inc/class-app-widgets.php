@@ -18,40 +18,7 @@ class App_Widget extends WP_Widget {
         
         add_action( 'wp_head', array( $this, 'track_popular_post_views' ) );
 
-        add_action('in_widget_form', array( __CLASS__, 'add_widget_option' ), 10, 3);
-        add_filter('widget_update_callback', array( __CLASS__, 'update_widget_option' ), 10, 3);
-
     }
-
-    public static function add_widget_option($widget, $return, $instance) {  
-	
-		if ( isset($instance['q2w3_fixed_widget']) ) $iqfw = $instance['q2w3_fixed_widget']; else $iqfw = 0;
-		
-		echo '<p>'.PHP_EOL;
-    	
-		echo '<input type="checkbox" name="'. $widget->get_field_name('q2w3_fixed_widget') .'" value="1" '. checked( $iqfw, 1, false ) .'/>'.PHP_EOL;
-    	
-		echo '<label for="'. $widget->get_field_id('q2w3_fixed_widget') .'">'. __('Fixed widget', 'q2w3-fixed-widget') .'</label>'.PHP_EOL;
-	
-		echo '</p>'.PHP_EOL;    
-
-    }
-    
-    public static function update_widget_option($instance, $new_instance, $old_instance){
-    
-    	if ( isset($new_instance['q2w3_fixed_widget']) && $new_instance['q2w3_fixed_widget'] ) {
-			
-    		$instance['q2w3_fixed_widget'] = 1;
-    
-    	} else {
-    	
-    		$instance['q2w3_fixed_widget'] = false;
-    	
-    	}
-    
-    	return $instance;
-
-	}
 
     public function get_widget_slug() {
 		return $this->widget_slug;
@@ -123,8 +90,8 @@ class App_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id( 'dauthor' ) ?>">Display Author :</label>
        </p>
        <p>
-            <input type="checkbox" id="<?php echo $this->get_field_id( 'sticky' ) ?>" name="<?php echo $this->get_field_name( 'sticky' ) ?>"value="1" <?php checked( 1, $instance['sticky'] ); ?> class="widefat">
-            <label for="<?php echo $this->get_field_id( 'sticky' ) ?>">Is The Widget Sticky :</label>
+            <input type="checkbox" id="<?php echo $this->get_field_id( 'fixed' ) ?>" name="<?php echo $this->get_field_name( 'fixed' ) ?>"value="1" <?php checked( 1, $instance['fixed'] ); ?> />
+            <label for="<?php echo $this->get_field_id( 'fixed' ) ?>">Fixed Widget :</label>
        </p>
         <?php
     }
