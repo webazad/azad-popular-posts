@@ -49,6 +49,8 @@ class AppPublic {
         }
 
     }
+	
+	public function enqueue_styles() {}
 
     /**
      * Register the JavaScript for the public-facing side of the site.
